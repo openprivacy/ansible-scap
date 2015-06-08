@@ -1,0 +1,7 @@
+[isimluk-OpenSCAP]
+name=Copr repo for OpenSCAP owned by isimluk
+baseurl=https://copr-be.cloud.fedoraproject.org/results/isimluk/OpenSCAP/epel-7-$basearch/
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=https://copr-be.cloud.fedoraproject.org/results/isimluk/OpenSCAP/pubkey.gpg
+enabled=1

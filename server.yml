@@ -1,0 +1,8 @@
+---
+- hosts: all
+
+  sudo: true
+
+  roles:
+    - openscap
+#   - harden

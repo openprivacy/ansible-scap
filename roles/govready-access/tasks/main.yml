@@ -1,0 +1,17 @@
+---
+
+- name: Create root SSH key-pair
+  command: ssh-keygen -q -f /tmp/id_rsa -t rsa -N ''
+
+- name: Copy root SSH pub-key to host
+  fetch: src=/tmp/id_rsa.pub
+         dest=roles/govready/files/
+         flat=yes
+
+- name: Move keypair into ~root/.ssh
+  command: "{{ item }}"
+  with_items:
+    - mv /tmp/id_rsa ~root/.ssh
+    - mv /tmp/id_rsa.pub ~root/.ssh
+    - chown -R root.root ~root/.ssh
+  sudo: yes

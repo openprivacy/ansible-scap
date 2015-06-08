@@ -1,0 +1,36 @@
+# Welcome to the GovReadyfile
+#
+# Almost every govready command parses and uses the parameters stored in this file.
+# Having parameters and values stored in this file simplifies what must be typed at
+# the command line and creates shareable artifact supporting Infrastructure as Code.
+
+# GovReady API/syntax version. You should not change this unless you are very certain
+API = 0.1.0
+
+# Directory where all scan and eval results will be written
+SCANDIR = scans
+
+# Default profile to be used with 'govready scan' command
+PROFILE = xccdf_org.ssgproject.content_profile_stig-rhel7-server-upstream
+
+# If set, overrides the default SSGCONTENTDIR="/usr/share/xml/scap/ssg/content"
+# TODO: prepend to other paths if they are not absolute
+SSGCONTENTDIR = scap
+
+# If set, this is the 'OSCAP_USER@OSCAP_HOST OSCAP_PORT' to be used for remote scanning.
+# FIXME: Enable an array of these values for scanning multiple hosts.
+OSCAP_USER = root
+OSCAP_HOST = 192.168.56.102
+OSCAP_PORT = 22
+
+# CPE file to be used with scans. Change this line to use a dictionary for a specific platform.
+# Currently, the dictionaly must be on the file system.
+# It is recommended new CPE dictionaries be added to the 'scap/content' directory
+CPE = ssg-centos7-cpe-dictionary.xml
+
+# XCCDF file to be used with scans. Change this line to use a different XCCDF.
+# This can also point to a datastream file.
+XCCDF = ssg-centos7-ds.xml
+
+# Directory into which to save files using 'govready import' command
+IMPORTDIR = scap/content

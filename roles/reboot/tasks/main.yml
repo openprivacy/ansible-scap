@@ -1,0 +1,38 @@
+---
+
+# - include_vars: pingdom-vars.yml
+
+# - name: set Pingdom check to paused
+#   local_action: pingdom uid={{ pingdom.uid }}
+#                 passwd={{ pingdom.passwd }}
+#                 key={{ pingdom.key }}
+#                 checkid={{ item }}
+#                 state=paused
+#   with_items: pingdom_checks
+
+# - name: Set SELINUX to Permissive
+#   selinux: state=permissive policy=targeted
+
+- name: Trigger reboot
+  command: shutdown -r now "Ansible reboot triggered"
+  async: 0
+  poll: 0
+  ignore_errors: true
+  sudo: true
+
+- name: Wait for server to come back
+  local_action: wait_for
+                host="{{ inventory_hostname }}"
+                port=22
+                delay=10
+                state=started
+                timeout=300
+  sudo: false
+
+# - name: set Pingdom check to running
+#   local_action: pingdom uid={{ pingdom.uid }}
+#                 passwd={{ pingdom.passwd }}
+#                 key={{ pingdom.key }}
+#                 checkid={{ item }}
+#                 state=running
+#   with_items: pingdom_checks

@@ -1,0 +1,22 @@
+---
+
+- name: Install packages python-lxml and git
+  yum: pkg="{{ item }}" state=installed
+  with_items:
+    - python-lxml
+    - git
+  ignore_errors: true
+  sudo: yes
+
+- name: Create /usr/local/scap directory
+  file: path=/usr/local/scap state=directory mode=0755
+        owner={{ ansible_user_id }}
+  sudo: yes
+
+- name: Clone SCAP Security Guide (SSG) repository 
+  git: repo=https://github.com/OpenSCAP/scap-security-guide.git
+       dest="/usr/local/scap/scap-security-guide"
+
+- name: Compile SCAP Security Guide content for RHEL 7
+  command: chdir="/usr/local/scap/scap-security-guide" make rhel7
+

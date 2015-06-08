@@ -1,0 +1,32 @@
+---
+
+- name: Clone GovReady repository
+  git: repo=https://github.com/GovReady/govready.git
+       dest="/usr/local/scap/govready"
+
+- name: Create link to govready executable
+  file: src="/usr/local/scap/govready/govready"
+        dest="/usr/local/bin/govready"
+        owner=root group=root state=link
+  sudo: yes
+
+- name: Create myfisma/ subdirectory
+  file: path=myfisma state=directory
+
+- name: Initialize GovReady
+  command: chdir=myfisma govready init
+
+- name: Rename default GovReadyfile to GovReadyfile.init
+  command: mv myfisma/GovReadyfile myfisma/GovReadyfile.init
+
+- name: Install GovReadyfile for 192.168.56.102 centos7 machine
+  copy: src=GovReadyfile
+        dest=myfisma/GovReadyfile
+
+- name: Remove myfisma/scap directory
+  file: path=myfisma/scap state=absent
+
+- name: Create link to SCAP content
+  file: src="/usr/local/scap/scap-security-guide/RHEL/7/dist/content"
+        dest="myfisma/scap"
+        state=link force=yes

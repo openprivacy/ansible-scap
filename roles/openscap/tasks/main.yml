@@ -1,0 +1,13 @@
+---
+
+- name: Add OpenSCAP yum repo
+  copy: src=isimluk-OpenSCAP-epel-7.repo
+        dest=/etc/yum.repos.d/
+        owner=root group=root mode=0644
+
+- name: Install OpenSCAP packages
+  yum: pkg={{item}} state=installed
+  with_items:
+    - openscap
+    - openscap-utils
+  ignore_errors: true
