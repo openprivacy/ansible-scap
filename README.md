@@ -14,30 +14,31 @@ Several ansible "roles" (openscap, scap-security-guide, harden, govready) are us
 
 ## Operation
 
-### Provision two vagrant machines: dashboard and server
+### Host: Provision two vagrant machines: dashboard and server
 - `vagrant up`
 
-#### Networking fails (on Arch host) until... have you turned it off and on again?
+#### Host: Networking fails until... have you turned it off and on again?
 - `vagrant halt`
 - `vagrant up`
 
-### Run the first scan of 'server' from the 'dashboard'
+### Dashboard: Run the first scan of 'server'
 _Note: The myfisma/GovReadyfile was set up during provisioning._
 - `vagrant ssh dashboard`
 - `cd myfisma`
 - `govready scan`
 
-### Update audit rules and issue.txt ('harden' role) from the host
+### Host: Update audit rules and issue.txt ('harden' role)
 _Note: Your port values may be different - check the inventory file, too._
 - `ssh-copy-id vagrant@localhost -p 2200`
 - `ansible-playbook -i inventory -l server harden.yml`
 
-### Execute standard remediations suggested by the SSG
+### Dashboard: Execute standard remediations suggested by the SSG
+- `# govready scan` # optional to view effect of 'harden'
 - `govready fix`
 
-### Run a final scan from the dashboard
+### Dashboard: Run a final scan (and compare)
 - `govready scan`
-- `govready compare`
+- `# govready compare` # not currently working with remote scans
 
 ## Results
 ### Stock CentOS 7 - results from first scan:
@@ -67,3 +68,9 @@ _[Full HTML](http://htmlpreview.github.io/?https://github.com/openprivacy/ansibl
 - CCE - [Common Configuration Enumeration](https://nvd.nist.gov/cce/index.cfm)
 - SCAP - [Security Content Automation Protocol](http://scap.nist.gov/)
 - SSG - [SCAP Security Guide](https://fedorahosted.org/scap-security-guide/)
+
+#### Afterword
+
+This project is licensed under the GPL v3.
+
+Work on this project has been supported by [CivicActions, Inc.](https://www.civicactions.com/).
