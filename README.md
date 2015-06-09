@@ -40,16 +40,19 @@ _Note: This would normally be done during provisioning._
 
 ## Results
 ### Stock CentOS 7 - results from first scan:
+_[Full HTML](http://htmlpreview.github.io/?https://github.com/openprivacy/ansible-scap/blob/master/example-results/scan-1-results.html)_
 - This profile identifies 4 high severity selected controls. OpenSCAP says 2 passing, 1 failing, and 1 notchecked.
 - This profile identifies 12 medium severity selected controls. OpenSCAP says 5 passing, 6 failing, and 1 notchecked.
 - This profile identifies 44 low severity selected controls. OpenSCAP says 7 passing, 35 failing, and 2 notchecked.
 
 ### After `harden` - results from second scan:
+_[Full HTML](http://htmlpreview.github.io/?https://github.com/openprivacy/ansible-scap/blob/master/example-results/scan-2-results.html)_
 - This profile identifies 4 high severity selected controls. OpenSCAP says 2 passing, 1 failing, and 1 notchecked.
 - This profile identifies 12 medium severity selected controls. OpenSCAP says 5 passing, 6 failing, and 1 notchecked.
 - This profile identifies 44 low severity selected controls. OpenSCAP says 33 passing, 9 failing, and 2 notchecked.
 
 ### After `govready fix` - results from third scan:
+_[Full HTML](http://htmlpreview.github.io/?https://github.com/openprivacy/ansible-scap/blob/master/example-results/scan-3-results.html)_
 - This profile identifies 4 high severity selected controls. OpenSCAP says 2 passing, 1 failing, and 1 notchecked.
 - This profile identifies 12 medium severity selected controls. OpenSCAP says 11 passing, 0 failing, and 1 notchecked.
 - This profile identifies 44 low severity selected controls. OpenSCAP says 39 passing, 3 failing, and 2 notchecked.
