@@ -1,9 +1,11 @@
 # ansible-scap
-ansible roles for SCAP scanning
+ansible roles for easy [SCAP](http://scap.nist.gov/) scanning
 
 ## Overview
 
-This test directory creates a dashboard server with [GovReady](https://github.com/GovReady/govready) and the [SCAP Security Guide](https://github.com/OpenSCAP/scap-security-guide) installed that run the [OpenSCAP](https://github.com/OpenSCAP/openscap) scanner against a "remote" server.
+This demo directory uses Vagrant to create a dashboard server with [GovReady](https://github.com/GovReady/govready) and the [SCAP Security Guide](https://github.com/OpenSCAP/scap-security-guide) installed that runs the [OpenSCAP](https://github.com/OpenSCAP/openscap) scanner against a "remote" server.
+
+Several ansible "roles" (openscap, scap-security-guide, harden, govready) are used that may be adapted with minor or no modifications to be used on local or remote servers.
 
 ## System Requirements
 - [ansible](http://www.ansible.com/)
@@ -57,4 +59,12 @@ _[Full HTML](http://htmlpreview.github.io/?https://github.com/openprivacy/ansibl
 - This profile identifies 12 medium severity selected controls. OpenSCAP says 11 passing, 0 failing, and 1 notchecked.
 - This profile identifies 44 low severity selected controls. OpenSCAP says 39 passing, 3 failing, and 2 notchecked.
 
+#### Notes on the four fails in the final report:
+- Two fails (CCE-26967-0 & CCE-26971-2) are due to `/var/log/` and `/var/log/audit/` not being located on a separate partition.
+- One fail (CCE-26957-1) is because the Red Hat GPG Key Installed (a holdover from RHEL).
+- One fail (CCE-RHEL7-CCE-TBD) results from recent changes to the audit rules regarding the use of privileged commands.
 
+## Glossary:
+- CCE - [Common Configuration Enumeration](https://nvd.nist.gov/cce/index.cfm)
+- SCAP - [Security Content Automation Protocol](http://scap.nist.gov/)
+- SSG - [SCAP Security Guide](https://fedorahosted.org/scap-security-guide/)
