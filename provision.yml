@@ -6,10 +6,11 @@
   roles:
     - openscap
     - harden
+    - dashboard-auth-key
 
 - name: Install SCAP Security Content (SSG) and GovReady on Dashboard
   hosts: dashboard
   roles:
     - scap-security-guide
     - govready
-    - govready-access
+    - publish-key

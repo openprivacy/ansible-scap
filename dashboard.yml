@@ -1,9 +1,0 @@
----
-- hosts: dashboard
-
-  roles:
-    - { role: openscap, sudo: yes }
-    - { role: harden, sudo: yes }
-    - { role: scap-security-guide }
-    - { role: govready }
-    - { role: govready-access }

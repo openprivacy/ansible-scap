@@ -26,7 +26,7 @@ Vagrant.configure(2) do |config|
     
     # Provision this machine as the dashboard control center running scans
     dashboard.vm.provision "ansible" do |ansible|
-      ansible.playbook = "vagrant.yml"
+      ansible.playbook = "provision.yml"
     end
   end
 
@@ -50,7 +50,7 @@ Vagrant.configure(2) do |config|
 
     # Provision this machine as a standard hardened server
     server.vm.provision "ansible" do |ansible|
-      ansible.playbook = "vagrant.yml"
+      ansible.playbook = "provision.yml"
     end
   end
 end
