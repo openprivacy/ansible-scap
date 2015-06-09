@@ -13,7 +13,6 @@ Several ansible "roles" (openscap, scap-security-guide, harden, govready) are us
 - [virtualbox](https://www.virtualbox.org/) (default provider)
 
 ## Operation
-_See also: scripts/scanPrep.sh_
 
 ### Provision two vagrant machines: dashboard and server
 - `vagrant up`
@@ -33,7 +32,7 @@ _Note: Your port values may be different - check the inventory file, too._
 - `ssh-copy-id vagrant@localhost -p 2200`
 - `ansible-playbook -i inventory -l server harden.yml`
 
-### Execute standard remediations suggested by the SCAP Security Content
+### Execute standard remediations suggested by the SSG
 - `govready fix`
 
 ### Run a final scan from the dashboard
