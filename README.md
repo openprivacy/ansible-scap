@@ -14,12 +14,29 @@ Several ansible "roles" (openscap, scap-security-guide, harden, govready) are us
 
 ## Operation
 
+Key:
+- *Host* - the machine which is hosting your Vagrant virtual machines (VMs)
+- *Dashboard* - the VM that will be running scans on a remote server (IP=192.168.56.101)
+- *Server* - the VM that will be scanned and hardened (IP=192.168.56.102)
+
+Run the commands below on the indicated machine. When prompted for a password for the "vagrant" user, enter "vagrant". In actual practice, SSH keys should be generated on the 'dashboard' and installed on the "servers" negating the need for password authentication.
+
 ### Host: Provision two vagrant machines: dashboard and server
 - `vagrant up`
 
+This creates the two VMs and, in addition, an "inventory" file that may be needed in a step below. On most GNU/Linux boxes, this inventory file can be viewed with this command:
+
+- `cat .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory`
+
 #### Host: Networking fails until... have you turned it off and on again?
+Try:
+- `ping 192.168.56.101`
+
+If that fails, then do:
 - `vagrant halt`
 - `vagrant up`
+
+For some reason, this seems to fix the networking. _Magic._
 
 ### Dashboard: Run the first scan of 'server'
 _Note: The myfisma/GovReadyfile was set up during provisioning._
@@ -27,9 +44,14 @@ _Note: The myfisma/GovReadyfile was set up during provisioning._
 - `cd myfisma`
 - `govready scan`
 
-### Host: Update audit rules and issue.txt ('harden' role)
-_Note: Your port values may be different - check the inventory file, too._
+### Host: Copy your (Host) SSH public key identities to the 'server'
+_Note: Your port values may be different - check the vagrant-created inventory file_
+
+This enables the following 'ansible-playbook' command to run.
 - `ssh-copy-id vagrant@localhost -p 2200`
+
+### Host: Update audit rules and issue.txt ('harden' role)
+_This would generally be part of provision.yml but is separated out here for demo purposes._
 - `ansible-playbook -i inventory -l server harden.yml`
 
 ### Dashboard: Execute standard remediations suggested by the SSG
