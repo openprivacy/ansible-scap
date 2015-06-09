@@ -1,5 +1,0 @@
----
-
-## FIXME: We are working to remove this requirement.
-- name: Enable dashboard root access for remote oscap-ssh scans
-  authorized_key: user=root key="{{ lookup('file', 'dashboard.pub') }}"

@@ -5,12 +5,10 @@
   sudo: true
   roles:
     - openscap
-    - harden
-    - dashboard-auth-key
+#   - harden
 
-- name: Install SCAP Security Content (SSG) and GovReady on Dashboard
+- name: Install SCAP Security Content (SSG) and GovReady on 'dashboard'
   hosts: dashboard
   roles:
     - scap-security-guide
     - govready
-    - publish-key

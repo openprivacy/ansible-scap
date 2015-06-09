@@ -7,21 +7,20 @@
 # GovReady API/syntax version. You should not change this unless you are very certain
 API = 0.1.0
 
-# Directory where all scan and eval results will be written
+# Base directory under which all scan and eval results will be written
 SCANDIR = scans
 
 # Default profile to be used with 'govready scan' command
 PROFILE = xccdf_org.ssgproject.content_profile_stig-rhel7-server-upstream
 
-# If set, overrides the default SSGCONTENTDIR="/usr/share/xml/scap/ssg/content"
-# TODO: prepend to other paths if they are not absolute
-SSGCONTENTDIR = scap
-
-# If set, this is the 'OSCAP_USER@OSCAP_HOST OSCAP_PORT' to be used for remote scanning.
-# FIXME: Enable an array of these values for scanning multiple hosts.
+# All three vars must be set 'OSCAP_USER@OSCAP_HOST OSCAP_PORT' for remote scanning.
+# Note that openscap-scanner ('oscap') must be installed on the remote server.
 OSCAP_USER = root
 OSCAP_HOST = 192.168.56.102
 OSCAP_PORT = 22
+
+# If set, overrides default = /usr/share/xml/scap/ssg/content
+SSGCONTENTDIR = scap
 
 # CPE file to be used with scans. Change this line to use a dictionary for a specific platform.
 # Currently, the dictionaly must be on the file system.
