@@ -48,6 +48,7 @@ _Note: The myfisma/GovReadyfile was set up during provisioning._
 ### Host: Copy your (Host) SSH public key identities to the 'server'
 _Note: Your port values may be different - check the vagrant-created inventory file_
 - `ssh-copy-id vagrant@localhost -p 2200`
+
 This enables the following 'ansible-playbook' command to run...
 
 ### Host: Update audit rules and issue.txt ('harden' role)
@@ -79,12 +80,11 @@ _[Full HTML Scan Report](http://htmlpreview.github.io/?https://github.com/openpr
 _[Full HTML Scan Report](http://htmlpreview.github.io/?https://github.com/openprivacy/ansible-scap/blob/master/example-results/scan-3-results.html)_
 - This profile identifies 4 high severity selected controls. OpenSCAP says 2 passing, 1 failing, and 1 notchecked.
 - This profile identifies 12 medium severity selected controls. OpenSCAP says 11 passing, 0 failing, and 1 notchecked.
-- This profile identifies 44 low severity selected controls. OpenSCAP says 39 passing, 3 failing, and 2 notchecked.
+- This profile identifies 44 low severity selected controls. OpenSCAP says 40 passing, 2 failing, and 2 notchecked.
 
-#### Notes on the four fails in the final report:
+#### Notes on the three fails in the final report:
 - Two fails (CCE-26967-0 & CCE-26971-2) are due to `/var/log/` and `/var/log/audit/` not being located on a separate partition.
 - One fail (CCE-26957-1) is because the Red Hat GPG Key Installed (a holdover from RHEL).
-- One fail (CCE-RHEL7-CCE-TBD) results from recent changes to the audit rules regarding the use of privileged commands.
 
 ## Glossary:
 - CCE - [Common Configuration Enumeration](https://nvd.nist.gov/cce/index.cfm)
