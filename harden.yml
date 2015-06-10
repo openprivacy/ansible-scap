@@ -1,7 +1,7 @@
 ---
 
-# ansible-playbook -vvvv -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory -l server playbooks/harden.yml
-- hosts: all
+- name: Install login banner and update audit rules
+  hosts: all
   roles:
     - { role: harden, sudo: yes }
 

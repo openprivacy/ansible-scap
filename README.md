@@ -4,7 +4,7 @@ ansible roles for easy [SCAP](http://scap.nist.gov/) scanning
 ## Overview
 This repository provides a demo of easy SCAP scanning using a Free and Open Source tool chain. SCAP (Security Content Automation Protocol) is a government and enterprise endorsed standard for trustworthy checking of both software configuration and known vulnerabilities.
 
-This demo uses Ansible and Vagrant to create a dashboard server with [GovReady](https://github.com/GovReady/govready) and the [SCAP Security Guide](https://github.com/OpenSCAP/scap-security-guide) installed that runs the [OpenSCAP](https://github.com/OpenSCAP/openscap) scanner against a "remote" server.
+This demo uses Ansible and Vagrant to create a dashboard server with [GovReady](https://github.com/GovReady/govready) and the [SCAP Security Guide](https://github.com/OpenSCAP/scap-security-guide) installed that runs the [OpenSCAP](https://github.com/OpenSCAP/openscap) scanner against a "remote" server. The server is then "hardened" using built-in remediation scripts and the installation of a compliant `audit.rules` file, and the scan is run again.
 
 Several ansible "roles" (openscap, scap-security-guide, harden, govready) are employed that may be adapted with minor or no modifications for use on local or remote servers.
 
@@ -15,19 +15,28 @@ Several ansible "roles" (openscap, scap-security-guide, harden, govready) are em
 - Internet access
 
 ## Operation
+### Clone this repository
+- `git clone https://github.com/openprivacy/ansible-scap.git`
+- `cd ansible-scap`
+
+_Note: the "inventory" symlink will be broken until `vagrant up` is run in the first step below._
+
+### Run the commands below on the indicated machine
 Key:
 - *Host* - the machine which is hosting your Vagrant virtual machines (VMs)
 - *Dashboard* - the VM that will be running scans on a remote server (IP=192.168.56.101)
 - *Server* - the VM that will be scanned and hardened (IP=192.168.56.102)
 
-Run the commands below on the indicated machine. When prompted for a password for the "vagrant" user, enter "vagrant". In practice, SSH keys should be generated on the 'dashboard' and installed on the 'servers' negating the need for password authentication.
+When prompted for a password for the "vagrant" user, enter "vagrant". In practice, SSH keys should be generated on the 'dashboard' and installed on the 'servers' negating the need for password authentication.
 
 ### Host: Provision two vagrant machines: dashboard and server
 - `vagrant up`
 
-This creates the two VMs and, in addition, an "inventory" file that may be needed in a step below. On most GNU/Linux boxes, this inventory file can be viewed with this command:
+This creates the two VMs and, in addition, an "vagrant_ansible_inventory" file that will be used in a step below. On most GNU/Linux boxes, this inventory file can be viewed with this command:
 
 - `cat .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory`
+
+To simplify access, this repository has a symlink "inventory" that points to the above file.
 
 #### Host: Networking fails until... have you turned it off and on again?
 Try:
@@ -53,7 +62,7 @@ This enables the following 'ansible-playbook' command to run...
 
 ### Host: Update audit rules and issue.txt ('harden' role)
 _By default this will be part of provision.yml but is separated out here for demo purposes._
-- `ansible-playbook -i inventory -l server harden.yml`
+- `ansible-playbook -i inventory -u vagrant -l server harden.yml`
 
 ### Dashboard: Execute standard remediations suggested by the SSG
 - `# govready scan` # optional to view effect of 'harden'
@@ -92,6 +101,8 @@ _[Full HTML Scan Report](http://htmlpreview.github.io/?https://github.com/openpr
 - SSG - [SCAP Security Guide](https://fedorahosted.org/scap-security-guide/)
 
 #### Afterword
+
+Standing on the shoulders of giants, I thank the OpenSCAP, SSG and GovReady developers as well as the entire F/OSS stack they run on (and which I use daily).
 
 Now that I understand SCAP and vulnerability scanning in general, I expect that every server I deploy to the InterWebs will have OpenSCAP installed and running for my piece of mind. All that remains is the creation of new content that will provide configuration and vulnerability testing of the sundry applications and operating systems that I will be using.
 
