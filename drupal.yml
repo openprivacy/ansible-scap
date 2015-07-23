@@ -6,4 +6,5 @@
     - vars/main.yml
   roles:
     - { role: geerlingguy.drupal }
+    - { role: drupal-security }
   sudo: true

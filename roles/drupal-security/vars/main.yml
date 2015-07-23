@@ -1,0 +1,6 @@
+---
+# The path where Drupal will be downloaded and installed.
+drupal_core_path: "/var/www/drupal-{{ drupal_core_version }}-dev"
+
+# The names of some Drupal security modules to install and enable.
+drupal_security_modules: "autologout security_review session_limit ejectorseat flood_control email_confirm"

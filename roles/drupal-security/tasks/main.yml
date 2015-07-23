@@ -1,0 +1,51 @@
+---
+
+- name: Install and enable some Drupal security modules.
+  command: >
+    /usr/local/bin/drush en -y {{ drupal_security_modules }}
+    chdir={{ drupal_core_path }}
+    creates={{ drupal_core_path }}/sites/all/modules/autologout
+
+- name: autologout - AC-3 Access Enforcement (see Organization Policy AC-2(5) Inactivity Logout)
+  command: >
+    /usr/local/bin/drush vset {{ item }}
+    chdir={{ drupal_core_path }}
+  with_items:
+    - autologout_redirect_url '/'
+    - autologout_enforce_admin 1
+    - autologout_role_2 1
+    - autologout_role_2_timeout 3600
+    - autologout_role_9 1
+    - autologout_role_9_timeout 3600
+    - autologout_role_logout 1
+    - autologout_timeout 3600
+    - autologout_use_watchdog 1
+
+- name: session_limit - AC-3 Access Enforcement (Session limits)
+  command: >
+    /usr/local/bin/drush vset {{ item }}
+    chdir={{ drupal_core_path }}
+  with_items:
+    - session_limit_logged_out_message 'You have been automatically logged out. Someone else has logged in with your username and password and the maximum number of @number simultaneous sessions was exceeded. This may indicate that your account has been compromised or that account sharing is not allowed on this site. Please contact the site administrator if you suspect your account has been compromised.'
+    - session_limit_logged_out_message_severity 'error'
+    - session_limit_max 1
+
+- name: ejector_seat - AC-3 Access Enforcement (Session limits)
+  command: >
+    /usr/local/bin/drush vset {{ item }}
+    chdir={{ drupal_core_path }}
+  with_items:
+    - ejectorseat_background 0
+    - ejectorseat_interval 120
+
+- name: flood_control - AC-7 Unsuccessful Logon Attempts
+  command: >
+    /usr/local/bin/drush vset {{ item }}
+    chdir={{ drupal_core_path }}
+  with_items:
+    - user_failed_login_ip_limit 50
+    - user_failed_login_ip_window 3600
+    - user_failed_login_user_limit 4
+    - user_failed_login_user_window 1800
+    - contact_threshold_limit 5
+    - contact_threshold_window 3600
