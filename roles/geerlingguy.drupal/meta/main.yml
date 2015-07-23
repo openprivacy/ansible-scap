@@ -1,0 +1,26 @@
+---
+dependencies:
+  - { role: geerlingguy.git }
+  - { role: geerlingguy.apache }
+  - { role: geerlingguy.mysql }
+  - { role: geerlingguy.php }
+  - { role: geerlingguy.php-mysql }
+  - { role: geerlingguy.composer }
+  - { role: geerlingguy.drush }
+
+galaxy_info:
+  author: geerlingguy
+  description: Install Drupal - a world class CMS
+  company: "Midwestern Mac, LLC"
+  license: "license (BSD, MIT)"
+  min_ansible_version: 1.4
+  platforms:
+  - name: Ubuntu
+    versions:
+    - all
+  - name: Debian
+    versions:
+    - all
+  categories:
+    - development
+    - web

@@ -1,0 +1,53 @@
+---
+language: python
+python: "2.7"
+
+env:
+  - SITE=test_install_from_source.yml
+    GIT_VERSION=2.1.0
+    GIT_PATH_PREFIX=/usr/local
+  - SITE=test_install_package.yml
+    GIT_PATH_PREFIX=/usr
+    GIT_VERSION=1.8.5.6
+
+before_install:
+  - sudo apt-get update -qq
+
+install:
+  # Install Ansible.
+  - pip install ansible
+
+  # Ensure Git is not installed.
+  - sudo apt-get purge -y git
+
+  # Add ansible.cfg to pick up roles path.
+  - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
+
+script:
+  # Check the role/playbook's syntax.
+  - "ansible-playbook -i tests/inventory tests/$SITE --syntax-check"
+
+  # Run the role/playbook with ansible-playbook.
+  - "ansible-playbook -i tests/inventory tests/$SITE --connection=local --sudo"
+
+  # Run again for testing... (TODO: REMOVE).
+  - "ansible-playbook -i tests/inventory tests/$SITE --connection=local -vvvv --sudo"
+
+  # Run the role/playbook again, checking to make sure it's idempotent.
+  - >
+    ansible-playbook -i tests/inventory tests/$SITE --connection=local --sudo
+    | grep -q 'changed=0.*failed=0'
+    && (echo 'Idempotence test: pass' && exit 0)
+    || (echo 'Idempotence test: fail' && exit 1)
+
+  # Make sure git is installed and at the correct version.
+  - which git
+  - test -x $GIT_PATH_PREFIX/bin/git
+
+  - git --version
+  - $GIT_PATH_PREFIX/bin/git --version | grep -qF "$GIT_VERSION"
+
+after_failure:
+  # If we failed, it's likely due to Travis environment changes.
+  - which git
+  - git --version

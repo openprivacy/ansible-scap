@@ -1,4 +1,6 @@
 ---
+- name: Update to latest version
+  yum: name=* state=latest
 
 - name: Move issue to issue.orig
   command: mv /etc/issue /etc/issue.orig creates=/etc/issue.orig

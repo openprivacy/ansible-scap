@@ -39,7 +39,7 @@ Vagrant.configure(2) do |config|
     server.vm.network :private_network, ip: "192.168.56.102" # , auto_config: false
     server.vm.network :forwarded_port, guest: 80, host: 8082
     # the following line doesn't "stick" - vagrant sets the port by default to 2200
-    # server.vm.network :forwarded_port, guest: 22, host: 2202, auto_correct: false
+    server.vm.network :forwarded_port, guest: 22, host: 2202, auto_correct: false
 
     # Sync overall cloudstart directory on host machine with "/vagrant" directory on guest machine
     server.vm.synced_folder ".", "/vagrant", group: "vagrant", owner: "vagrant", create: true

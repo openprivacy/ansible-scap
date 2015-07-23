@@ -1,0 +1,9 @@
+---
+
+- name: Install Drupal
+  hosts: server
+  vars_files:
+    - vars/main.yml
+  roles:
+    - { role: geerlingguy.drupal }
+  sudo: true

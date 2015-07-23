@@ -5,10 +5,22 @@
   sudo: true
   roles:
     - openscap
-#   - harden  -- Commented out for demo purposes only
+    - harden
 
 - name: Install SCAP Security Content (SSG) and GovReady on 'dashboard'
   hosts: dashboard
   roles:
     - scap-security-guide
     - govready
+
+- name: Install apache/php/mysql/composer/drush
+  hosts: server
+  roles:
+    # - git
+    # - php55
+    # - apache24
+    # - mariadb
+    # - composer
+    # - drush
+    # - drupal
+  sudo: true

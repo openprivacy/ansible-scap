@@ -8,6 +8,17 @@ This demo uses Ansible and Vagrant to create a dashboard server with [GovReady](
 
 Several ansible "roles" (openscap, scap-security-guide, harden, govready) are employed that may be adapted with minor or no modifications for use on local or remote servers.
 
+Several ansible roles were pulled from ansible-galaxy for the default Drupal installation using:
+```
+ansible-galaxy install --roles-path=roles geerlingguy.drupal
+```
+
+Some files from these roles have been modified to work with CentOS 7.1
+- geerlingguy.mysql/vars/RedHat.yml
+- geerlingguy.drupal/tasks/drupal.yml
+- geerlingguy.drupal/tasks/web.yml
+- geerlingguy.drupal/templates/drupal-vhost.conf.j2
+
 ## Demo Requirements
 - [ansible](http://www.ansible.com/)
 - [vagrant](https://www.vagrantup.com/)
@@ -53,37 +64,8 @@ _Note: The myfisma/GovReadyfile was set up during provisioning._
 - `vagrant ssh dashboard`
 - `cd myfisma`
 - `govready scan`
-
-### Host: Copy your (Host) SSH public key identities to the 'server'
-_Note: Your port values may be different - check the vagrant-created inventory file_
-- `ssh-copy-id vagrant@localhost -p 2200`
-
-This enables the following 'ansible-playbook' command to run...
-
-### Host: Update audit rules and issue.txt ('harden' role)
-_By default this will be part of provision.yml but is separated out here for demo purposes._
-- `ansible-playbook -i inventory -u vagrant -l server harden.yml`
-
-### Dashboard: Execute standard remediations suggested by the SSG
-- `# govready scan` # optional to view effect of 'harden'
 - `govready fix`
-
-### Dashboard: Run a final scan (and compare)
 - `govready scan`
-- `# govready compare` # not currently working with remote scans
-
-## Results
-### Stock CentOS 7 - results from first scan:
-_[Full HTML Scan Report](http://htmlpreview.github.io/?https://github.com/openprivacy/ansible-scap/blob/master/example-results/scan-1-results.html)_
-- This profile identifies 4 high severity selected controls. OpenSCAP says 2 passing, 1 failing, and 1 notchecked.
-- This profile identifies 12 medium severity selected controls. OpenSCAP says 5 passing, 6 failing, and 1 notchecked.
-- This profile identifies 44 low severity selected controls. OpenSCAP says 7 passing, 35 failing, and 2 notchecked.
-
-### After 'harden' - results from second scan:
-_[Full HTML Scan Report](http://htmlpreview.github.io/?https://github.com/openprivacy/ansible-scap/blob/master/example-results/scan-2-results.html)_
-- This profile identifies 4 high severity selected controls. OpenSCAP says 2 passing, 1 failing, and 1 notchecked.
-- This profile identifies 12 medium severity selected controls. OpenSCAP says 5 passing, 6 failing, and 1 notchecked.
-- This profile identifies 44 low severity selected controls. OpenSCAP says 33 passing, 9 failing, and 2 notchecked.
 
 ### After `govready fix` - results from third scan:
 _[Full HTML Scan Report](http://htmlpreview.github.io/?https://github.com/openprivacy/ansible-scap/blob/master/example-results/scan-3-results.html)_
@@ -94,6 +76,16 @@ _[Full HTML Scan Report](http://htmlpreview.github.io/?https://github.com/openpr
 #### Notes on the three fails in the final report:
 - Two fails (CCE-26967-0 & CCE-26971-2) are due to `/var/log/` and `/var/log/audit/` not being located on a separate partition.
 - One fail (CCE-26957-1) is because the Red Hat GPG Key Installed (a holdover from RHEL).
+
+### Host: Copy your (Host) SSH public key identities to the 'server'
+_Note: Your port values may be different - check the vagrant-created inventory file_
+- `ssh-copy-id vagrant@localhost -p 2200`
+
+This enables the following 'ansible-playbook' command to run...
+
+### Host: Install Drupal (and dependencies git, apache, php, mysql, composer, drush)
+- `ansible-playbook -i inventory -u vagrant -l server drupal.yml`
+
 
 ## Glossary:
 - CCE - [Common Configuration Enumeration](https://nvd.nist.gov/cce/index.cfm)

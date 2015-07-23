@@ -1,0 +1,9 @@
+---
+# fen@civicactions.com updated for RedHat/CentOS 7.x
+__mysql_daemon: mariadb
+__mysql_packages:
+  - mariadb
+  - mariadb-server
+  - MySQL-python
+mysql_config_file: /etc/my.cnf
+mysql_socket: /var/lib/mysql/mysql.sock

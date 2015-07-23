@@ -1,0 +1,22 @@
+---
+# TODO: Make this configuration work with nginx, apache, all OSes.
+# fen@civicactions.com updated for RedHat/CentOS 7.x
+- name: Add Apache virtualhost for Drupal.
+  template: >
+    src=drupal-vhost.conf.j2
+    dest=/etc/httpd/conf.d/{{ drupal_domain }}.conf
+    owner=root group=root mode=644
+  notify: restart webserver
+
+# - name: Symlink Drupal virtualhost to sites-enabled.
+#   file: >
+#     src=/etc/httpd/sites-available/{{ drupal_domain }}.conf
+#     dest=/etc/httpd/sites-enabled/{{ drupal_domain }}.conf
+#     state=link
+#   notify: restart webserver
+
+# - name: Remove default virtualhost file.
+#   file: >
+#     path=/etc/httpd/conf.d/vhosts.conf
+#     state=absent
+#   notify: restart webserver

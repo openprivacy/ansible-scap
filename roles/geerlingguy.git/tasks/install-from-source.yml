@@ -1,0 +1,49 @@
+---
+- name: Ensure git's dependencies are installed (RedHat).
+  yum: "pkg={{ item }} state=installed"
+  with_items:
+    - gettext-devel
+    - expat-devel
+    - curl-devel
+    - zlib-devel
+    - perl-devel
+    - openssl-devel
+    - subversion-perl
+  when: ansible_os_family == 'RedHat'
+
+- name: Ensure git's dependencies are installed (Debian).
+  apt: "pkg={{ item }} state=installed"
+  with_items:
+    - libcurl4-gnutls-dev
+    - libexpat1-dev
+    - gettext
+    - libssl-dev
+    - build-essential
+  when: ansible_os_family == 'Debian'
+
+- name: Download git.
+  get_url:
+    url: "https://www.kernel.org/pub/software/scm/git/git-{{ git_version }}.tar.gz"
+    dest: "{{ workspace }}/git-{{ git_version }}.tar.gz"
+
+- name: Expand git archive.
+  command: >
+    tar -zxf {{ workspace }}/git-{{ git_version }}.tar.gz
+    chdir={{ workspace }}
+    creates={{ workspace }}/git-{{ git_version }}/README
+
+- name: Check if git is installed.
+  command: which git
+  changed_when: false
+  failed_when: false
+  register: git_installed
+
+- name: Build git.
+  command: >
+    make prefix={{ git_install_path }} {{ item }}
+    chdir={{ workspace }}/git-{{ git_version }}
+  when: git_installed|failed
+  with_items:
+    - all
+    - install
+  sudo: yes

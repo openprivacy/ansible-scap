@@ -1,0 +1,12 @@
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    ServerName {{ drupal_domain }}
+    ServerAlias www.{{ drupal_domain }}
+    DocumentRoot {{ drupal_core_path }}
+    <Directory "{{ drupal_core_path }}">
+        Options FollowSymLinks Indexes
+        AllowOverride All
+	# fen@civicactions.com updated for use with RedHat/CentOS 7.x
+	Require all granted
+    </Directory>
+</VirtualHost>

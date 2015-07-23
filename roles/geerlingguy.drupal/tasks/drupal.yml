@@ -1,0 +1,39 @@
+---
+# Download Drupal using drush (--no-cache prevents checksum error).
+# - name: "Drupal: Download Drupal Core."
+#   command:
+#     drush dl drupal-{{ drupal_core_version }} --no-cache
+#     creates={{ drupal_core_path }}/index.php
+#     chdir=/var/www
+
+# Download Drupal using Git.
+- name: Check out Drupal Core to the default location.
+  git: >
+    repo={{ drupal_repo_url }}
+    version={{ drupal_core_version }}
+    update=no
+    dest={{ drupal_core_path }}
+
+- name: Install Drupal.
+  command: >
+    /usr/local/bin/drush si {{ drupal_install_profile }} -y
+    --site-name="{{ drupal_site_name }}"
+    --account-name=admin
+    --account-pass=admin
+    --db-url=mysql://{{ drupal_mysql_user }}:{{ drupal_mysql_password }}@localhost/{{ drupal_mysql_database }}
+    chdir={{ drupal_core_path }}
+    creates={{ drupal_core_path }}/sites/default/settings.php
+  notify: restart webserver
+
+# SEE: https://drupal.org/node/2121849#comment-8413637
+- name: Set permissions properly on settings.php.
+  file: >
+    path={{ drupal_core_path }}/sites/default/settings.php
+    mode=744
+
+- name: Set permissions properly on files directory.
+  file: >
+    path={{ drupal_core_path }}/sites/default/files
+    mode=777
+    state=directory
+    recurse=yes
