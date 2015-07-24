@@ -1,10 +1,10 @@
 # ansible-scap
-ansible roles for easy [SCAP](http://scap.nist.gov/) scanning
+Ansible roles to demonstrate [SCAP](http://scap.nist.gov/) (Security Controls Automation Protocol) scanning
 
 ## Overview
 This repository provides a demo of easy SCAP scanning using a Free and Open Source tool chain. SCAP (Security Content Automation Protocol) is a government and enterprise endorsed standard for trustworthy checking of both software configuration and known vulnerabilities.
 
-This demo uses Ansible and Vagrant to create a dashboard server with [GovReady](https://github.com/GovReady/govready) and the [SCAP Security Guide](https://github.com/OpenSCAP/scap-security-guide) installed that runs the [OpenSCAP](https://github.com/OpenSCAP/openscap) scanner against a "remote" server. The server is then "hardened" using built-in remediation scripts and the installation of a compliant `audit.rules` file, and the scan is run again.
+This demo uses Ansible and Vagrant to create a dashboard (security control center) with [GovReady](https://github.com/GovReady/govready) and the [SCAP Security Guide](https://github.com/OpenSCAP/scap-security-guide) installed that runs the [OpenSCAP](https://github.com/OpenSCAP/openscap) scanner against a "remote" server. The server is "hardened" using default SCAP remediation scripts and the installation of a compliant `audit.rules` file. Drupal can then be installed.
 
 Several ansible "roles" (openscap, scap-security-guide, harden, govready) are employed that may be adapted with minor or no modifications for use on local or remote servers.
 
@@ -85,6 +85,9 @@ This enables the following 'ansible-playbook' command to run...
 
 ### Host: Install Drupal (and dependencies git, apache, php, mysql, composer, drush)
 - `ansible-playbook -i inventory -u vagrant -l server drupal.yml`
+
+### Host: Ensure that security modules are present, enabled and configured.
+- `ansible-playbook -i inventory -u vagrant -l server drupal-security.yml`
 
 
 ## Glossary:

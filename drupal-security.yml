@@ -1,0 +1,9 @@
+---
+
+- name: Ensure that security modules are present, enabled and configured.
+  hosts: server
+  vars_files:
+    - vars/main.yml
+  roles:
+    - { role: drupal-security }
+  sudo: true
