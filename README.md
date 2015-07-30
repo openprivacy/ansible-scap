@@ -8,17 +8,6 @@ This demo uses Ansible and Vagrant to create a dashboard (security control cente
 
 Several ansible "roles" (openscap, scap-security-guide, harden, govready) are employed that may be adapted with minor or no modifications for use on local or remote servers.
 
-Several ansible roles were pulled from ansible-galaxy for the default Drupal installation using:
-```
-ansible-galaxy install --roles-path=roles geerlingguy.drupal
-```
-
-Some files from these roles have been modified to work with CentOS 7.1
-- geerlingguy.mysql/vars/RedHat.yml
-- geerlingguy.drupal/tasks/drupal.yml
-- geerlingguy.drupal/tasks/web.yml
-- geerlingguy.drupal/templates/drupal-vhost.conf.j2
-
 ## Demo Requirements
 - [ansible](http://www.ansible.com/)
 - [vagrant](https://www.vagrantup.com/)
@@ -86,9 +75,14 @@ This enables the following 'ansible-playbook' command to run...
 ### Host: Install Drupal (and dependencies git, apache, php, mysql, composer, drush)
 - `ansible-playbook -i inventory -u vagrant -l server drupal.yml`
 
+Based on https://github.com/geerlingguy/ansible-role-drupal , some files were modified to work with CentOS 7.1
+- geerlingguy.mysql/vars/RedHat.yml
+- geerlingguy.drupal/tasks/drupal.yml
+- geerlingguy.drupal/tasks/web.yml
+- geerlingguy.drupal/templates/drupal-vhost.conf.j2
+
 ### Host: Ensure that security modules are present, enabled and configured.
 - `ansible-playbook -i inventory -u vagrant -l server drupal-security.yml`
-
 
 ## Glossary:
 - CCE - [Common Configuration Enumeration](https://nvd.nist.gov/cce/index.cfm)
