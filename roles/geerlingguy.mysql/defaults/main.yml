@@ -23,11 +23,11 @@ mysql_enablerepo: ""
 mysql_port: "3306"
 mysql_bind_address: '0.0.0.0'
 mysql_datadir: /var/lib/mysql
-mysql_pid_file: /var/run/mysqld/mysqld.pid
+mysql_pid_file: /var/run/mariadb/mysqld.pid
 
 # Slow query log settings.
 mysql_slow_query_log_enabled: no
-mysql_slow_query_log_file: /var/log/mysql-slow.log
+mysql_slow_query_log_file: /var/log/mariadb/mysql-slow.log
 mysql_slow_query_time: 2
 
 # Memory settings (default values optimized ~512MB RAM).
@@ -63,7 +63,7 @@ mysql_mysqldump_max_allowed_packet: "64M"
 
 # Logging settings.
 mysql_log: ""
-mysql_log_error: /var/log/mysql.err
+mysql_log_error: /var/log/mariadb/mysql.err
 mysql_syslog_tag: mysql
 
 # Databases.

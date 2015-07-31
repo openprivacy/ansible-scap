@@ -1,0 +1,11 @@
+---
+
+- name: Run 'govready scan' then 'govready fix' on server
+  command: >
+    /usr/local/bin/govready {{ item }}
+    chdir=myfisma
+  with_items:
+    - scan
+    - fix
+    - scan
+  

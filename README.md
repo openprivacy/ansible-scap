@@ -38,16 +38,6 @@ This creates the two VMs and, in addition, an "vagrant_ansible_inventory" file t
 
 To simplify access, this repository has a symlink "inventory" that points to the above file.
 
-#### Host: Networking fails until... have you turned it off and on again?
-Try:
-- `ping 192.168.56.101`
-
-If that fails, then do:
-- `vagrant halt`
-- `vagrant up`
-
-For some reason, this seems to fix the networking. _Magic._
-
 ### Dashboard: Run the first scan of 'server'
 _Note: The myfisma/GovReadyfile was set up during provisioning._
 - `vagrant ssh dashboard`
@@ -56,7 +46,7 @@ _Note: The myfisma/GovReadyfile was set up during provisioning._
 - `govready fix`
 - `govready scan`
 
-### After `govready fix` - results from third scan:
+### After `govready fix` - results from final scan:
 _[Full HTML Scan Report](http://htmlpreview.github.io/?https://github.com/openprivacy/ansible-scap/blob/master/example-results/scan-3-results.html)_
 - This profile identifies 4 high severity selected controls. OpenSCAP says 2 passing, 1 failing, and 1 notchecked.
 - This profile identifies 12 medium severity selected controls. OpenSCAP says 11 passing, 0 failing, and 1 notchecked.
@@ -76,6 +66,7 @@ This enables the following 'ansible-playbook' command to run...
 - `ansible-playbook -i inventory -u vagrant -l server drupal.yml`
 
 Based on https://github.com/geerlingguy/ansible-role-drupal , some files were modified to work with CentOS 7.1
+- geerlingguy.mysql/defaults/main.yml
 - geerlingguy.mysql/vars/RedHat.yml
 - geerlingguy.drupal/tasks/drupal.yml
 - geerlingguy.drupal/tasks/web.yml
