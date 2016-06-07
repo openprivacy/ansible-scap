@@ -13,6 +13,6 @@
   when: ansible_distribution == "CentOS"
 
 - name: Copy RHEL Audit Rules
-  copy: src=centos7-audit.rules
+  copy: src=rhel7-audit.rules
         dest=/etc/audit/rules.d/rhel7-audit.rules
   when: ansible_distribution == "RHEL"
